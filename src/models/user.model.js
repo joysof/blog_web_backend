@@ -57,45 +57,6 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: roles,
     },
-    callingCode: {
-      type: String,
-      required: false,
-      default: null
-    },
-    phoneNumber: {
-      type: Number,
-      required: false,
-      default: null
-    },
-    nidNumber: {
-      type: Number,
-      required: false,
-      default: null
-    },
-    isNIDVerified: {
-      type: Boolean,
-      default: false,
-      default: null
-    },
-    dataOfBirth: {
-      type: Date,
-      required: false,
-      default: null
-    },
-    address: {
-      type: String,
-      required: false,
-      default: null
-    },
-    oneTimeCode: {
-      type: String,
-      required: false,
-      default: null
-    },
-    isEmailVerified: {
-      type: Boolean,
-      default: false,
-    },
     isResetPassword: {
       type: Boolean,
       default: false,
