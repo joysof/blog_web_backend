@@ -20,13 +20,31 @@ const getBlogs = async () =>{
 const getBlogById = async (blogId) =>{
     const blog = await Blogs.findById(blogId)
     .populate("user_id" , "name email")
-    // if (!blog) {
-    //     throw new ApiError(httpStatus.NOT_FOUND , "Blog not found")
-    // }
+    if (!blog) {
+        throw new ApiError(httpStatus.NOT_FOUND , "Blog not found")
+    }
     return blog
+}
+
+// update blog only own blog 
+
+const updateBlog = async (blogId , userId , updateBody) =>{
+  const blog = await Blogs.findById(blogId)
+  if (!blog) {
+    throw new ApiError(httpStatus.NOT_FOUND , "Blog not found")
+
+  }
+  if (blog.user_id.toString() !== userId.toString()) {
+    throw new ApiError(httpStatus.UNAUTHORIZED , "You are not allow for this blog update")
+  }
+  Object.assign(blog , updateBody)
+  await blog.save()
+
+  return blog
 }
 module.exports ={
     createBlog,
     getBlogs,
-    getBlogById
+    getBlogById,
+    updateBlog
 }

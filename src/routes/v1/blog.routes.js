@@ -9,6 +9,7 @@ blogRoute.get('/:id', blogController.getBlogById)
 
 
 blogRoute.post('/', auth(), blogController.createBlog)
+blogRoute.put('/:id', auth(), blogController.updateBlog)
 
 
 module.exports = blogRoute

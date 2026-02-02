@@ -3,6 +3,7 @@ const { blogService } = require('../services')
 const response = require('../config/response')
 const httpStatus = require("http-status")
 const ApiError = require('../utils/ApiError')
+const { Blogs } = require('../models')
 
 
 // create a new blog
@@ -36,8 +37,26 @@ const getBlogById = async (req,res) =>{
   )
 }
 
+// update blog only own blog 
+
+const updateBlog = async (req,res) =>{
+  try {
+    const blog = await blogService.updateBlog(
+      req.params.id,
+      req.user.id,
+      req.body
+    )
+    res.json(blog)
+  } catch (error) {
+    res.status(400).json({
+      message : error.message
+    })
+  }
+}
+
 module.exports ={
     createBlog,
     getBlogs,
-    getBlogById
+    getBlogById,
+    updateBlog
 }
