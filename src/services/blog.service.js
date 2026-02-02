@@ -1,4 +1,5 @@
 const {Blogs} = require ( "../models")
+
 const ApiError = require("../utils/ApiError")
 const httpStatus = require("http-status")
 
@@ -42,9 +43,28 @@ const updateBlog = async (blogId , userId , updateBody) =>{
 
   return blog
 }
+
+// delete blog by  id 
+
+const deleteBlogById = async (blogId , userId) =>{
+    const blog = await findOne({
+        _id : blogId,
+        user_id : userId,
+        isDeleted : false
+    })
+
+    if (!blog) {
+        throw new ApiError(httpStatus.NOT_FOUND , "blog not found")
+    }
+    blog.isDeleted = true
+    await blog.save()
+
+    return blog
+}
 module.exports ={
     createBlog,
     getBlogs,
     getBlogById,
-    updateBlog
+    updateBlog,
+    deleteBlogById
 }

@@ -1,10 +1,8 @@
-
 const { blogService } = require('../services')
 const response = require('../config/response')
-const httpStatus = require("http-status")
+const httpStatus = require('http-status')
 const ApiError = require('../utils/ApiError')
 const { Blogs } = require('../models')
-
 
 // create a new blog
 const createBlog = async (req, res) => {
@@ -18,45 +16,59 @@ const createBlog = async (req, res) => {
   }
 }
 
-// get all Blogs 
+// get all Blogs
 
-const getBlogs = async (req,res) =>{
+const getBlogs = async (req, res) => {
   const blogs = await blogService.getBlogs()
   res.json(blogs)
 }
-const getBlogById = async (req,res) =>{
+const getBlogById = async (req, res) => {
   const data = await blogService.getBlogById(req.params.id)
-  
+
   res.status(httpStatus.OK).json(
     response({
-      message : "single blog",
-      status : "OK",
+      message: 'single blog',
+      status: 'OK',
       statusCode: httpStatus.OK,
-      data
-    })
+      data,
+    }),
   )
 }
 
-// update blog only own blog 
+// update blog only own blog
 
-const updateBlog = async (req,res) =>{
+const updateBlog = async (req, res) => {
   try {
     const blog = await blogService.updateBlog(
       req.params.id,
       req.user.id,
-      req.body
+      req.body,
     )
     res.json(blog)
   } catch (error) {
     res.status(400).json({
-      message : error.message
+      message: error.message,
     })
   }
 }
 
-module.exports ={
-    createBlog,
-    getBlogs,
-    getBlogById,
-    updateBlog
+// deleted blog
+
+const deleteBlogById = async (req, res) => {
+  const data = await blogService.deleteBlogById(req.params.blogId, req.user.id)
+  res.status(httpStatus.OK).json(
+    response({
+      message: 'Delete Blog',
+      status: 'OK',
+      statusCode: httpStatus.OK,
+      data,
+    }),
+  )
+}
+module.exports = {
+  createBlog,
+  getBlogs,
+  getBlogById,
+  updateBlog,
+  deleteBlogById
 }
