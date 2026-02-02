@@ -74,7 +74,11 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false
     },
-
+  oneTimeCode: {
+      type: String,
+      required: false,
+      default: null,
+    },
     securitySettings: {
       recoveryEmail: {
         type: String,

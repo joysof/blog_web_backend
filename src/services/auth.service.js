@@ -93,6 +93,8 @@ const verifyEmail = async (reqBody, reqQuery) => {
   console.log("reqQuery", oneTimeCode);
   const user = await userService.getUserByEmail(email);
   
+  console.log("REQ OTP:", oneTimeCode, typeof oneTimeCode);
+  console.log("DB OTP:", user.oneTimeCode, typeof user.oneTimeCode);
   // if(user.oneTimeCode === 'verified'){
   //   throw new ApiError(
   //     httpStatus.BAD_REQUEST,
