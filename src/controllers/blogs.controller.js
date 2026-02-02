@@ -1,6 +1,9 @@
+
 const { blogService } = require('../services')
+const response = require('../config/response')
+const httpStatus = require("http-status")
 const ApiError = require('../utils/ApiError')
-const httpStatus = require('http-status')
+
 
 // create a new blog
 const createBlog = async (req, res) => {
@@ -20,8 +23,21 @@ const getBlogs = async (req,res) =>{
   const blogs = await blogService.getBlogs()
   res.json(blogs)
 }
+const getBlogById = async (req,res) =>{
+  const data = await blogService.getBlogById(req.params.id)
+  
+  res.status(httpStatus.OK).json(
+    response({
+      message : "single blog",
+      status : "OK",
+      statusCode: httpStatus.OK,
+      data
+    })
+  )
+}
 
 module.exports ={
     createBlog,
-    getBlogs
+    getBlogs,
+    getBlogById
 }

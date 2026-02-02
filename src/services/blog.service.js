@@ -15,7 +15,18 @@ const getBlogs = async () =>{
     return Blogs.find().populate("user_id" , "name email photo")
 }
 
+// get single blogs by id 
+
+const getBlogById = async (blogId) =>{
+    const blog = await Blogs.findById(blogId)
+    .populate("user_id" , "name email")
+    // if (!blog) {
+    //     throw new ApiError(httpStatus.NOT_FOUND , "Blog not found")
+    // }
+    return blog
+}
 module.exports ={
     createBlog,
-    getBlogs
+    getBlogs,
+    getBlogById
 }
