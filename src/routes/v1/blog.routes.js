@@ -10,7 +10,7 @@ blogRoute.get('/:id', blogController.getBlogById)
 
 blogRoute.post('/', auth(), blogController.createBlog)
 blogRoute.put('/:id', auth(), blogController.updateBlog)
-blogRoute.put('/:blogId', auth(), blogController.deleteBlogById)
+blogRoute.delete('/:blogId', auth(), blogController.deleteBlogById)
 
 
 module.exports = blogRoute

@@ -47,7 +47,7 @@ const updateBlog = async (blogId , userId , updateBody) =>{
 // delete blog by  id 
 
 const deleteBlogById = async (blogId , userId) =>{
-    const blog = await findOne({
+    const blog = await Blogs.findOne({
         _id : blogId,
         user_id : userId,
         isDeleted : false
