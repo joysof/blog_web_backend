@@ -13,13 +13,18 @@ const createBlog = async (user , blogBody) =>{
 // get all blog 
 
 const getBlogs = async () =>{
-    return Blogs.find().populate("user_id" , "name email photo")
+    const blogs = Blogs.find({isDeleted : false})
+    .populate("user_id" , "name email photo")
+    return blogs
 }
 
 // get single blogs by id 
 
 const getBlogById = async (blogId) =>{
-    const blog = await Blogs.findById(blogId)
+    const blog = await Blogs.findOne({
+        _id :blogId,
+        isDeleted : false
+    })
     .populate("user_id" , "name email")
     if (!blog) {
         throw new ApiError(httpStatus.NOT_FOUND , "Blog not found")
@@ -30,7 +35,10 @@ const getBlogById = async (blogId) =>{
 // update blog only own blog 
 
 const updateBlog = async (blogId , userId , updateBody) =>{
-  const blog = await Blogs.findById(blogId)
+  const blog = await Blogs.findById({
+    _id :blogId,
+    isDeleted : false
+  })
   if (!blog) {
     throw new ApiError(httpStatus.NOT_FOUND , "Blog not found")
 
