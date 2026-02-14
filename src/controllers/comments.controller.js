@@ -37,7 +37,20 @@ const getBlogComments = catchAsync(async (req , res) =>{
     })
   )
 })
+const deleteComment = catchAsync(async (req ,res) =>{
+  const {commentId} = req.params
+  const data = await commentsServices.deleteComment(commentId,req.user._id)
+  res.status(httpStatus.OK).json(
+    response({
+      message : "comment deleted successfully",
+      status : "OK",
+      statusCode : httpStatus.OK,
+      data,
+    })
+  )
+})
 module.exports = {
     createComment,
-    getBlogComments
+    getBlogComments,
+    deleteComment
 }
