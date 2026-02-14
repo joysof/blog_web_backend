@@ -24,7 +24,20 @@ const createComment = catchAsync(async (req, res) => {
   
 })
 
+const getBlogComments = catchAsync(async (req , res) =>{
+  const {blogId} = req.params;
+  const data = await commentsServices.getBlogComments(blogId)
 
+  res.status(httpStatus.OK).json(
+    response({
+      message : "Comments fetched  successfully",
+      status : "ok",
+      statusCode : httpStatus.OK,
+      data
+    })
+  )
+})
 module.exports = {
-    createComment
+    createComment,
+    getBlogComments
 }

@@ -22,6 +22,17 @@ const createComments = async (userId , blogId , commentText) =>{
     return comment
 }
 
+const getBlogComments = async (blogId) =>{
+    const comment = await Comments.find({
+        blog_id : blogId,
+        isDeleted : false
+    })
+    .populate("user_id" , "name email")
+    .sort({createdAt: -1})
+    return comment
+}
+
 module.exports = {
-    createComments
+    createComments,
+    getBlogComments
 }
