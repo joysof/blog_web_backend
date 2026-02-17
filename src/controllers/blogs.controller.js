@@ -9,6 +9,10 @@ const createBlog = async (req, res) => {
   try {
     const blogBody = req.body
     const user = req.user.id
+
+    if(req.file){
+      blogBody.image = req.file.filename
+    }
     const blog = await blogService.createBlog(user, blogBody)
     res.status(201).json({ success: true, data: blog })
   } catch (error) {
