@@ -14,7 +14,7 @@ const { authLimiter } = require("./middlewares/rateLimiter");
 const routes = require("./routes/v1");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
-
+const path = require("path")
 const app = express();
 
 if (config.env !== "test") {
@@ -24,6 +24,30 @@ if (config.env !== "test") {
 
 // malter for file upload
 app.use(express.static("public"));
+
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+};
+
+
+app.use(
+  "/uploads/blogsImage",
+  (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  },
+  express.static(path.join(__dirname, "../uploads/blogsImage"))
+);
+
+
+app.use(cors(corsOptions));
 
 // set security HTTP headers
 app.use(helmet());
@@ -41,9 +65,8 @@ app.use(mongoSanitize());
 // gzip compression
 app.use(compression());
 
-// enable cors
-app.use(cors());
-app.options("*", cors());
+
+
 
 // jwt authentication
 app.use(passport.initialize());
@@ -68,6 +91,11 @@ app.get("/test", (req, res) => {
     req.connection.remoteAddress;
   res.send({ message: "This is Love Crew API", userIP });
 });
+
+app.use(
+  "/uploads/blogsImage",
+  express.static(path.join(__dirname , "../uploads/blogsImage"))
+)
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
