@@ -4,7 +4,7 @@ const {blogController} = require("../../controllers")
 const multerSetup = require('../../middlewares/fileUpload')
 const path = require("path")
 const blogRoute = express.Router()
-const UPLOADS_FOLDER = path.join(__dirname, "../../uploads/blogsImage");
+const UPLOADS_FOLDER = path.join(__dirname, "../../../uploads/blogsImage");
 const upload = multerSetup(UPLOADS_FOLDER);
 blogRoute.get('/', blogController.getBlogs)
 blogRoute.get('/:id', blogController.getBlogById)
